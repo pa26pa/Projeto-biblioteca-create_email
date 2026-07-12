@@ -1,10 +1,17 @@
 import json
 
 def load():
-    with open("templates.json", "r", encoding="utf-8") as arquivo:
-        data = json.load(arquivo)
-        
-    return data
+    try:
+        with open('seu_arquivo.json', 'r', encoding='utf-8') as arquivo:
+            conteudo = arquivo.read().strip()
+            if not conteudo: 
+                return {}
+            return json.loads(conteudo)
+    except FileNotFoundError:
+        return {}
+    except json.JSONDecodeError:
+        print("Aviso: O arquivo JSON estava vazio ou inválido. Retornando estrutura vazia.")
+        return {}
 
 def upload(data):
     with open("templates.json", "w", encoding="utf-8") as file:
